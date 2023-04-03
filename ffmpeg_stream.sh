@@ -1,41 +1,30 @@
 #!/bin/bash
-if cat /etc/*release | grep "CentOS Linux 7" &> /dev/null
-then
-    yum -y update
-elif cat /etc/*release | grep "CentOS Linux 8" &> /dev/null
-then
-    dnf -y update
-elif cat /etc/*release | grep "Ubuntu 20.04" &> /dev/null
-then
-    apt-get -y update
+# 安装依赖工具
+if [[ $(command -v apt-get) ]]; then
+sudo apt-get update -y && sudo apt-get install -y curl gnupg2 ca-certificates unzip
+elif [[ $(command -v yum) ]]; then
+sudo yum update -y && sudo yum install -y curl gnupg2 ca-certificates unzip
+elif [[ $(command -v dnf) ]]; then
+sudo dnf update -y && sudo dnf install -y curl gnupg2 ca-certificates unzip
+else
+    echo "不支持的操作系统" && exit 1
 fi
-
 # 安装Screen
 if ! command -v screen &> /dev/null
 then
-    if cat /etc/*release | grep "CentOS Linux 7" &> /dev/null
-    then
-        yum -y install screen
-    elif cat /etc/*release | grep "CentOS Linux 8" &> /dev/null
-    then
-        dnf -y install screen
-    elif cat /etc/*release | grep "Ubuntu 20.04" &> /dev/null
-    then
-        apt-get -y install screen
+    if [[ $(command -v apt-get) ]]; then
+        sudo apt-get install -y screen
+    elif [[ $(command -v yum) ]]; then
+        sudo yum install -y screen
+    elif [[ $(command -v dnf) ]]; then
+        sudo dnf install -y screen
+    else
+        echo "不支持的操作系统" && exit 1
     fi
 fi
-
 # 创建新目录
 mkdir /home/lighthouse/ffmpeg
-# 进入目录并启动脚本
-if [ -d "/home/lighthouse/ffmpeg" ]
-then
-    cd /home/lighthouse/ffmpeg
-
-    # 授予执行权限并运行脚本
-    chmod +x ffmpeg_stream.sh
-    screen -dmS ffmpeg ./ffmpeg_stream.sh
-fi
+cd /home/lighthouse/ffmpeg
 PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 export PATH
 #=================================================================#
@@ -50,7 +39,6 @@ red='\033[0;31m'
 green='\033[0;32m'
 yellow='\033[0;33m'
 font="\033[0m"
-
 ffmpeg_install(){
 # 安装FFMPEG
 read -p "你的机器内是否已经安装过FFmpeg4.x?安装FFmpeg才能正常推流,是否现在安装FFmpeg?(yes/no):" Choose
@@ -67,8 +55,7 @@ then
     sleep 2
 fi
 	}
-
-stream_start(){
+    stream_start(){
 # 定义推流地址和推流码
 read -p "输入你的推流地址和推流码(rtmp协议):" rtmp
 
@@ -119,7 +106,6 @@ stream_stop(){
 	screen -S stream -X quit
 	killall ffmpeg
 	}
-
 # 开始菜单设置
 echo -e "${yellow} CentOS7 X86_64 FFmpeg无人值守循环推流 For LALA.IM ${font}"
 echo -e "${red} 请确定此脚本目前是在screen窗口内运行的! ${font}"
@@ -143,7 +129,6 @@ start_menu(){
         ;;
     esac
 	}
-
 # 运行开始菜单
 start_menu
 
