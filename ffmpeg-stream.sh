@@ -55,8 +55,9 @@ then
 fi
 	}
 # 创建screen窗口，并启动程序
-start screen () {
-screen -S stream -dm bash -c "./ffmpeg_stream.sh"
+start_screen() {
+    screen -S stream -dm bash -c "./ffmpeg_stream.sh"
+}
   }
   # 关闭screen窗口
 close screen () {
