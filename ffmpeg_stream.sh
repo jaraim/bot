@@ -49,24 +49,6 @@ ffmpeg_install() {
         sleep 2
     fi
 }
-# 判断 FFmpeg 是否已经安装
-if ! [ -x "$(command -v ffmpeg)" ]; then
-    # 下载 FFmpeg 静态编译版本
-    echo "开始下载 FFmpeg 静态编译版本 ..."
-    curl -O https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz
-
-    # 下载 FFmpeg 解码器库
-    echo "开始下载 FFmpeg 解码器库 ..."
-    curl -O https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-shared.tar.xz
-
-    # 解压文件并将可执行文件复制到可执行目录
-    echo "开始解压和安装 FFmpeg ..."
-    tar -xvf ffmpeg-release-amd64-static.tar.xz
-    cd ffmpeg*
-    sudo cp ffmpeg ffprobe /usr/local/bin/
-else
-    echo "FFmpeg 已经安装，跳过下载和安装步骤。"
-fi
 # 创建screen窗口，并启动程序
 screen -S stream -dm bash -c "./ffmpeg_stream.sh"
 stream_start() {
