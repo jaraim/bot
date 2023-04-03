@@ -36,25 +36,32 @@ mkdir ~/lighthouse/ffmpg
 cd ~/lighthouse/ffmpg	
 # 安装FFMPEG	
 ffmpeg_install() {
-    read -p "你的机器内是否已经安装过FFmpeg4.x?安装FFmpeg才能正常推流,是否现在安装FFmpeg?(yes/no):" Choose
-    if ! [ -x "$(command -v ffmpeg)" ]; then
-    # 如果 FFmpeg 尚未安装，则询问用户是否现在安装
-    read -p "您的机器内尚未安装 FFmpeg，是否现在安装？(yes/no):" Choose
-    if [[ $Choose = "yes" ]]; then
-        # 安装 FFmpeg
-        echo "开始安装 FFmpeg ..."
-        yum -y install wget
-        wget --no-check-certificate https://www.johnvansickle.com/ffmpeg/old-releases/ffmpeg-4.0.3-64bit-static.tar.xz
-        tar -xJf ffmpeg-4.0.3-64bit-static.tar.xz
-        cd ffmpeg-4.0.3-64bit-static
-        sudo cp ffmpeg ffprobe /usr/local/bin/
-        echo "FFmpeg 安装成功！"
-    else
-        echo "您选择不安装 FFmpeg，程序可能无法正常工作！"
-    fi
+    read -p "是否重新安装 FFmpeg？(yes/no): " Choose
+if [[ $Choose = "yes" ]]; then
+    echo "开始重新安装 FFmpeg ..."
+    sudo rm /usr/local/bin/ffmpeg /usr/local/bin/ffprobe
+    sudo rm /usr/local/include/ffmpeg /usr/local/share/ffmpeg /usr/local/lib/pkgconfig/lib*.pc /usr/local/lib/*.so*
+    sudo rm /usr/local/lib/*.a
+    wget --no-check-certificate -O ffmpeg-git-amd64-static.tar.xz https://www.johnvansickle.com/ffmpeg/builds/ffmpeg-git-amd64-static.tar.xz
+    sudo tar xJf ffmpeg-git-amd64-static.tar.xz -C /usr/local/bin --strip-components=1
+    echo "FFmpeg 重新安装成功！"
 else
-    # 如果已经安装了 FFmpeg，则给出提示
-    echo "FFmpeg 已经安装，无需重新安装。"
+    if ! [ -x "$(command -v ffmpeg)" ]; then
+        read -p "您的机器内尚未安装 FFmpeg，是否现在安装？(yes/no): " Choose
+        if [[ $Choose = "yes" ]]; then
+            echo "开始安装 FFmpeg ..."
+            sudo yum -y install wget
+            wget --no-check-certificate https://www.johnvansickle.com/ffmpeg/old-releases/ffmpeg-4.0.3-64bit-static.tar.xz
+            tar -xJf ffmpeg-4.0.3-64bit-static.tar.xz
+            cd ffmpeg-4.0.3-64bit-static
+            sudo cp ffmpeg ffprobe /usr/local/bin/
+            echo "FFmpeg 安装成功！"
+        else
+            echo "您选择不安装 FFmpeg，程序可能无法正常工作！"
+        fi
+    else
+        echo "FFmpeg 已经安装，无需重新安装。"
+    fi
 fi
 }
 # 创建screen窗口，并启动程序
