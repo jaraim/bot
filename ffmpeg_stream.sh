@@ -26,6 +26,7 @@ else
     else
         echo "不支持的操作系统" && exit 1
     fi
+fi
   #创建新目录
 mkdir /home/lighthouse
 mkdir /home/lighthouse/ffmpg
@@ -98,14 +99,14 @@ stream_start() {
     if [[ $watermark = "no" ]]; then
         echo -e "${yellow} 你选择不添加水印,程序将开始推流。${font}"
         # 循环
-        while true; do
-            cd $folder
+        while true; do			
+            cd $folder		
             for video in $(ls *.mp4); do
                 ffmpeg -re -i "$video" -c:v copy -c:a aac -b:a 192k -strict -2 -f flv ${rtmp}&
             done
         done
-    fi
-}
+    fi			
+}	
 
 # 停止推流
 stream_stop() {
@@ -131,8 +132,8 @@ start_menu() {
             stream_stop ;;
         *)
             echo -e "${red} 请输入正确的数字 (1-3) ${font}" ;;
-    esac
-}
+    esac	
+}	
 # 运行开始菜单
-start_menu
-EOF
+start_menu	
+EOF	
