@@ -146,7 +146,7 @@ start_menu() {
 	    stream_stop ;;  
 	0)
             exit_file
-		*)
+	*)
             echo -e "${red} 请输入正确的数字 (0-6) ${font}" ;;
     esac	
 }	
