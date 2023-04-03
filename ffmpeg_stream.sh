@@ -13,7 +13,35 @@ red='\033[0;31m'
 green='\033[0;32m'
 yellow='\033[0;33m'
 font="\033[0m"
-
+#!/bin/bash
+# 安装依赖工具
+if [[ $(command -v apt-get) ]]; then
+sudo apt-get update -y && sudo apt-get install -y curl gnupg2 ca-certificates unzip
+elif [[ $(command -v yum) ]]; then
+sudo yum update -y && sudo yum install -y curl gnupg2 ca-certificates unzip
+elif [[ $(command -v dnf) ]]; then
+sudo dnf update -y && sudo dnf install -y curl gnupg2 ca-certificates unzip
+else
+    echo "不支持的操作系统" && exit 1
+fi
+#创建新目录
+mkdir /home/lighthouse/ffmpg
+cd /home/lighthouse/ffmpg
+# 安装screen
+if [[ $(command -v screen) ]]; then
+	echo "screen已安装"
+else
+	echo "screen未安装,开始安装screen"
+	if [[ $(command -v apt-get) ]]; then
+	sudo apt-get install -y screen
+	elif [[ $(command -v yum) ]]; then
+	sudo yum install -y screen
+	elif [[ $(command -v dnf) ]]; then
+	sudo dnf install -y screen
+	else
+		echo "不支持的操作系统" && exit 1
+	fi
+fi
 ffmpeg_install(){
 # 安装FFMPEG
 read -p "你的机器内是否已经安装过FFmpeg4.x?安装FFmpeg才能正常推流,是否现在安装FFmpeg?(yes/no):" Choose
