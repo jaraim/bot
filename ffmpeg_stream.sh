@@ -15,21 +15,24 @@ red='\033[0;31m'
 green='\033[0;32m'
 yellow='\033[0;33m'
 font="\033[0m"
+#安装依赖
+dependency_install() {
 # 检测 curl、gnupg2、ca-certificates 和 unzip 工具是否已经安装
 if [[ $(command -v curl) && $(command -v gnupg2) && $(command -v ca-certificates) && $(command -v unzip) && $(command -v screen) ]]; then
     echo "依赖工具已经安装，跳过安装步骤 ..."
 else
     # 安装依赖工具
     if [[ $(command -v apt-get) ]]; then
-        sudo apt-get update && \sudo apt-get install -y curl gnupg2 ca-certificates unzip screen 
+        sudo apt-get update -y && sudo apt-get install -y curl gnupg2 ca-certificates unzip screen
     elif [[ $(command -v yum) ]]; then
-        sudo yum update -y && \sudo yum install -y curl gnupg2 ca-certificates unzip screen
+        sudo yum update -y && sudo yum install -y curl gnupg2 ca-certificates unzip screen
     elif [[ $(command -v dnf) ]]; then
-        sudo dnf update -y && \sudo dnf install -y curl gnupg2 ca-certificates unzip screen
+        sudo dnf update -y && sudo dnf install -y curl gnupg2 ca-certificates unzip screen
     else
         echo "不支持的操作系统" && exit 1
     fi
 fi
+}
   #创建新目录
 mkdir ~/lighthouse
 mkdir ~/lighthouse/ffmpg
@@ -121,7 +124,7 @@ echo -e "${red} 请确定此脚本目前是在screen窗口内运行的! ${font}"
 echo -e "${green} 1.安装FFmpeg (机器要安装FFmpeg才能正常推流) ${font}"
 echo -e "${green} 2.开始无人值守循环推流 ${font}"
 echo -e "${green} 3.停止推流 ${font}"
-
+echo -e "${green} 4.安装依赖 ${font}"	
 start_menu() {
     read -p "请输入数字(1-3),选择你要进行的操作:" num
     case "$num" in
@@ -131,7 +134,9 @@ start_menu() {
             stream_start ;;
         3)
             stream_stop ;;
-        *)
+	    4)	stream_stop ;;	
+        
+		*)
             echo -e "${red} 请输入正确的数字 (1-3) ${font}" ;;
     esac	
 }	
