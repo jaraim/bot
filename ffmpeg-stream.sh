@@ -49,7 +49,7 @@ if [ $Choose = "y" ];then
 	cd ffmpeg-4.0.3-64bit-static
 	mv ffmpeg /usr/bin && mv ffprobe /usr/bin && mv qt-faststart /usr/bin && mv ffmpeg-10bit /usr/bin
 fi
-if [ $Choose = "no" ]
+if [ $Choose = "n" ]
 then
     echo -e "${yellow} 你选择不安装FFmpeg,请确定你的机器内已经自行安装过FFmpeg,否则程序无法正常工作! ${font}"
     sleep 2
@@ -103,8 +103,8 @@ if [ $watermark = "y" ];then
       ffmpeg -re -i "$video" -c:v copy -c:a aac -b:a 192k -strict -2 -f flv ${rtmp} &
     fi
   done
-  # 暂停 3 秒
-  sleep 3s
+  # 暂停 2 秒
+  sleep 2s
 done
 fi
 if [ $watermark = "n" ]
@@ -126,7 +126,7 @@ do
     fi
     ffmpeg -re -i "$video" -c:v copy -c:a aac -b:a 192k -strict -2 -f flv "$rtmp" &
   done
-  sleep 3s
+  sleep 2s
 done
 fi
 	}
