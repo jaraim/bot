@@ -30,7 +30,6 @@ fi
 #创建新目录
 mkdir /home/lighthouse/ffmpg
 cd /home/lighthouse/ffmpg
-
 ffmpeg_install(){
 # 安装FFMPEG
 read -p "你的机器内是否已经安装过FFmpeg4.x?安装FFmpeg才能正常推流,是否现在安装FFmpeg?(yes/no):" Choose
@@ -126,4 +125,5 @@ start_menu(){
 
 # 运行开始菜单
 start_menu
+
 EOF
