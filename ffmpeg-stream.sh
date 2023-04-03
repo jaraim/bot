@@ -58,7 +58,7 @@ fi
 
 start_screen() {
 # 创建screen窗口，并启动程序
-    screen -S stream -dm bash -c "./ffmpeg_stream.sh"
+ nohup screen -S stream -dm bash -c "./ffmpeg_stream.sh" >/dev/null 2>&1 &
 }
 
  
