@@ -37,13 +37,13 @@ cd ~/lighthouse/ffmpg
 curl -s -L -o ffmpeg_stream.sh https://raw.githubusercontent.com/jaraim/bot/main/ffmpeg_stream.sh && chmod +x ./ffmpeg_stream.sh && echo "文件已保存为：$(pwd)/ffmpeg_stream.sh"
 # 安装FFMPEG	
 ffmpeg_install() {
-    read -p "是否重新安装 FFmpeg？(yes/no): " Choose
-if [ -x "~/lighthouse/ffmpeg/ffmpeg" ]; then
+    read -p "安装 FFmpeg？(y/n): " Choose
+if [ -x "~/lighthouse/ffmpeg" ]; then
     echo "FFmpeg 已安装在 ~/lighthouse/ffmpeg 中。"
 else
-    # 询问是否安装 FFmpeg
-    read -p "您的机器没有安装 FFmpeg，是否安装？(yes/no): " choice
-    if [ $choice == "yes" ]; then
+    # 是否安装 FFmpeg
+    read -p "您的机器没有安装 FFmpeg，是否安装？(y/n): " choice
+    if [ $choice == "y" ]; then
         # 安装 FFmpeg
         echo "开始安装 FFmpeg ..."
         mkdir -p ~/lighthouse/ffmpeg
