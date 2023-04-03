@@ -70,7 +70,14 @@ ffmpeg_install() {
     fi
 }
 # 创建screen窗口，并启动程序
+start screen () {
 screen -S stream -dm bash -c "./ffmpeg_stream.sh"
+  }
+  # 关闭screen窗口
+close screen () {
+    screen -S stream -X quit
+    killall ffmpeg
+  }
 stream_start() {
     # 定义推流地址和推流码
     read -p "输入你的推流地址和推流码(rtmp协议):" rtmp
@@ -124,7 +131,9 @@ echo -e "${red} 请确定此脚本目前是在screen窗口内运行的! ${font}"
 echo -e "${green} 1.安装FFmpeg (机器要安装FFmpeg才能正常推流) ${font}"
 echo -e "${green} 2.开始无人值守循环推流 ${font}"
 echo -e "${green} 3.停止推流 ${font}"
-echo -e "${green} 4.安装依赖 ${font}"	
+echo -e "${green} 4.安装依赖 ${font}"
+echo -e "${green} 5.启动screen ${font}"
+echo -e "${green} 6.关闭screen ${font}" 
 start_menu() {
     read -p "请输入数字(1-3),选择你要进行的操作:" num
     case "$num" in
@@ -134,7 +143,12 @@ start_menu() {
             stream_start ;;
         3)
             stream_stop ;;
-	    4)	stream_stop ;;	
+        4)	
+	    stream_stop ;;	
+	5)	
+	    stream_stop ;;
+        6)
+	    stream_stop ;;
         
 		*)
             echo -e "${red} 请输入正确的数字 (1-3) ${font}" ;;
