@@ -1,4 +1,7 @@
 #!/bin/bash
+# 授予执行权限并运行脚本
+chmod +x ffmpeg_stream.sh
+./ffmpeg_stream.sh
 # 检测系统版本并更新软件包
 if cat /etc/*release | grep "CentOS Linux 7" &> /dev/null
 then
@@ -139,6 +142,4 @@ start_menu(){
 
 # 运行开始菜单
 start_menu
-# 授予执行权限并运行脚本
-chmod +x ffmpeg_stream.sh
-./ffmpeg_stream.sh
+
