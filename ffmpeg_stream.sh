@@ -1,12 +1,15 @@
 #!/bin/bash
+
 PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 export PATH
+
 #=================================================================#
 #   System Required: CentOS7 X86_64                               #
 #   Description: FFmpeg Stream Media Server                       #
 #   Author: LALA                                    #
 #   Website: https://www.lala.im                                  #
 #=================================================================#
+
 # 颜色选择
 red='\033[0;31m'
 green='\033[0;32m'
@@ -30,9 +33,9 @@ fi
   #创建新目录
 mkdir /home/lighthouse
 mkdir /home/lighthouse/ffmpg
-cd /home/lighthouse/ffmpg
+cd /home/lighthouse/ffmpg	
+# 安装FFMPEG	
 ffmpeg_install() {
-    # 安装FFMPEG
     read -p "你的机器内是否已经安装过FFmpeg4.x?安装FFmpeg才能正常推流,是否现在安装FFmpeg?(yes/no):" Choose
     if [[ $Choose = "yes" ]]; then
         yum -y install wget
@@ -84,34 +87,28 @@ read -p "输入你的视频存放目录 (格式仅支持mp4,并且要绝对路�
 
 # 判断是否需要添加水印
 read -p "是否需要为视频添加水印?水印位置默认在右上方,需要较好CPU支持(yes/no):" watermark
-if [ $watermark = "yes" ];then
+    if [[ $watermark = "yes" ]]; then
 	read -p "输入你的水印图片存放绝对路径,例如/opt/image/watermark.jpg (格式支持jpg/png/bmp):" image
-	echo -e "${yellow} 添加水印完成,程序将开始推流. ${font}"
+        echo -e "${yellow} 添加水印完成,程序将开始推流。${font}"
 	# 循环
-	while true
-	do
+        while true; do
 		cd $folder
-		for video in $(ls *.mp4)
-		do
+            for video in $(ls *.mp4); do
 		ffmpeg -re -i "$video" -i "$image" -filter_complex overlay=W-w-5:5 -c:v libx264 -c:a aac -b:a 192k -strict -2 -f flv ${rtmp}
 		done
 	done
 fi
-if [ $watermark = "no" ]
-then
-    echo -e "${yellow} 你选择不添加水印,程序将开始推流. ${font}"
+    if [[ $watermark = "no" ]]; then
+        echo -e "${yellow} 你选择不添加水印,程序将开始推流。${font}"
     # 循环
-	while true
-	do
+        while true; do
 		cd $folder
-		for video in $(ls *.mp4)
-		do
+            for video in $(ls *.mp4); do
 		ffmpeg -re -i "$video" -c:v copy -c:a aac -b:a 192k -strict -2 -f flv ${rtmp}
 		done
 	done
 fi
 	}
-
 
 # 停止推流
 stream_stop() {
@@ -139,6 +136,7 @@ start_menu() {
             echo -e "${red} 请输入正确的数字 (1-3) ${font}" ;;
     esac	
 }	
+
 # 运行开始菜单
 start_menu	
 EOF	
