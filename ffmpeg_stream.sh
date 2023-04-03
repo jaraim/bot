@@ -95,8 +95,8 @@ stream_start() {
 read -p "输入你的视频存放目录 (格式仅支持mp4,并且要绝对路径,例如/opt/video):" folder
 
 # 判断是否需要添加水印
-read -p "是否需要为视频添加水印?水印位置默认在右上方,需要较好CPU支持(yes/no):" watermark
-    if [[ $watermark = "yes" ]]; then
+read -p "是否需要为视频添加水印?水印位置默认在右上方,需要较好CPU支持(y/n):" watermark
+    if [[ $watermark = "y" ]]; then
 	read -p "输入你的水印图片存放绝对路径,例如/opt/image/watermark.jpg (格式支持jpg/png/bmp):" image
         echo -e "${yellow} 添加水印完成,程序将开始推流。${font}"
 	# 循环
@@ -107,7 +107,7 @@ read -p "是否需要为视频添加水印?水印位置默认在右上方,需要
 		done
 	done
 fi
-    if [[ $watermark = "no" ]]; then
+    if [[ $watermark = "n" ]]; then
         echo -e "${yellow} 你选择不添加水印,程序将开始推流。${font}"
     # 循环
         while true; do
@@ -131,11 +131,11 @@ echo -e "${red} 请确定此脚本目前是在screen窗口内运行的! ${font}"
 echo -e "${green} 1.安装FFmpeg (机器要安装FFmpeg才能正常推流) ${font}"
 echo -e "${green} 2.开始无人值守循环推流 ${font}"
 echo -e "${green} 3.停止推流 ${font}"
-echo -e "${green} 4.安装依赖 ${font}"
-echo -e "${green} 5.启动screen ${font}"
-echo -e "${green} 6.关闭screen ${font}" 
+echo -e "${green} 4.依赖安装 ${font}"	
+echo -e "${green} 5.开始画面 ${font}"
+echo -e "${green} 6.关闭屏幕 ${font}" 
 start_menu() {
-    read -p "请输入数字(1-3),选择你要进行的操作:" num
+    read -p "请输入数字(0-6),选择你要进行的操作:" num
     case "$num" in
         1)
             ffmpeg_install ;;
@@ -143,17 +143,18 @@ start_menu() {
             stream_start ;;
         3)
             stream_stop ;;
-        4)	
-	    stream_stop ;;	
-	5)	
-	    stream_stop ;;
+        4)
+            dependency_install ;;
+        5)
+            start_screen ;;
         6)
-	    stream_stop ;;
-        
-		*)
-            echo -e "${red} 请输入正确的数字 (1-3) ${font}" ;;
-    esac	
-}	
+            close_screen ;;
+        0)
+            exit_file ;;
+        *)
+            echo -e "${red} 请输入正确的数字 (0-6) ${font}" ;;
+    esac  
+}  
 
 # 运行开始菜单
 start_menu	
