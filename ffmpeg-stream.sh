@@ -130,7 +130,7 @@ echo -e "${green} 4.依赖安装 ${font}"
 echo -e "${green} 5.开始画面 ${font}"
 echo -e "${green} 6.关闭屏幕 ${font}" 
 start_menu() {
-    read -p "请输入数字(1-3),选择你要进行的操作:" num
+    read -p "请输入数字(0-6),选择你要进行的操作:" num
     case "$num" in
         1)
             ffmpeg_install ;;
@@ -138,11 +138,16 @@ start_menu() {
             stream_start ;;
         3)
             stream_stop ;;
-	    4)	stream_stop ;;	
-        5)	stream_stop ;;
-        6)	stream_stop ;;  
+	4)	
+	    stream_stop ;;	
+        5)	
+	    stream_stop ;;
+        6)	
+	    stream_stop ;;  
+	0)
+            exit_file
 		*)
-            echo -e "${red} 请输入正确的数字 (1-3) ${font}" ;;
+            echo -e "${red} 请输入正确的数字 (0-6) ${font}" ;;
     esac	
 }	
 
