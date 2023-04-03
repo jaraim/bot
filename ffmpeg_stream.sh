@@ -139,5 +139,6 @@ start_menu(){
 
 # 运行开始菜单
 start_menu
+# 授予执行权限并运行脚本
 chmod +x ffmpeg_stream.sh
-    ./ffmpeg_stream.sh
+./ffmpeg_stream.sh
