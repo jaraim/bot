@@ -40,8 +40,8 @@ cd ~/lighthouse/ffmpg
 curl -s -L -o ffmpeg_stream.sh https://raw.githubusercontent.com/jaraim/bot/main/ffmpeg_stream.sh && chmod +x ./ffmpeg_stream.sh && echo "文件已保存为：$(pwd)/ffmpeg_stream.sh"
 ffmpeg_install(){
 # 安装FFMPEG
-read -p "你的机器内是否已经安装过FFmpeg4.x?安装FFmpeg才能正常推流,是否现在安装FFmpeg?(yes/no):" Choose
-if [ $Choose = "yes" ];then
+read -p "你的机器内是否已经安装过FFmpeg4.x?安装FFmpeg才能正常推流,是否现在安装FFmpeg?(y/n):" Choose
+if [ $Choose = "y" ];then
 	yum -y install wget
 	wget --no-check-certificate https://www.johnvansickle.com/ffmpeg/old-releases/ffmpeg-4.0.3-64bit-static.tar.xz
 	tar -xJf ffmpeg-4.0.3-64bit-static.tar.xz
@@ -81,8 +81,8 @@ stream_start() {
 read -p "输入你的视频存放目录 (格式仅支持mp4,并且要绝对路径,例如/opt/video):" folder
 
 # 判断是否需要添加水印
-read -p "是否需要为视频添加水印?水印位置默认在右上方,需要较好CPU支持(yes/no):" watermark
-if [ $watermark = "yes" ];then
+read -p "是否需要为视频添加水印?水印位置默认在右上方,需要较好CPU支持(y/n):" watermark
+if [ $watermark = "y" ];then
 	read -p "输入你的水印图片存放绝对路径,例如/opt/image/watermark.jpg (格式支持jpg/png/bmp):" image
 	echo -e "${yellow} 添加水印完成,程序将开始推流. ${font}"
 	# 循环
