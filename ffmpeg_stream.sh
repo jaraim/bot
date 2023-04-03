@@ -1,4 +1,34 @@
 #!/bin/bash
+# 检测系统版本并更新软件包
+if cat /etc/*release | grep "CentOS Linux 7" &> /dev/null
+then
+    yum -y update
+elif cat /etc/*release | grep "CentOS Linux 8" &> /dev/null
+then
+    dnf -y update
+elif cat /etc/*release | grep "Ubuntu 20.04" &> /dev/null
+then
+    apt-get -y update
+fi
+
+# 安装Screen
+if ! command -v screen &> /dev/null
+then
+    if cat /etc/*release | grep "CentOS Linux 7" &> /dev/null
+    then
+        yum -y install screen
+    elif cat /etc/*release | grep "CentOS Linux 8" &> /dev/null
+    then
+        dnf -y install screen
+    elif cat /etc/*release | grep "Ubuntu 20.04" &> /dev/null
+    then
+        apt-get -y install screen
+    fi
+fi
+
+# 创建新目录并进入
+mkdir /home/lighthouse/ffmpeg
+cd /home/lighthouse/ffmpeg
 PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 export PATH
 #=================================================================#
@@ -109,3 +139,5 @@ start_menu(){
 
 # 运行开始菜单
 start_menu
+chmod +x ffmpeg_stream.sh
+    ./ffmpeg_stream.sh
