@@ -1,30 +1,4 @@
 #!/bin/bash
-# 安装依赖工具
-if [[ $(command -v apt-get) ]]; then
-sudo apt-get update -y && sudo apt-get install -y curl gnupg2 ca-certificates unzip
-elif [[ $(command -v yum) ]]; then
-sudo yum update -y && sudo yum install -y curl gnupg2 ca-certificates unzip
-elif [[ $(command -v dnf) ]]; then
-sudo dnf update -y && sudo dnf install -y curl gnupg2 ca-certificates unzip
-else
-    echo "不支持的操作系统" && exit 1
-fi
-# 安装Screen
-if ! command -v screen &> /dev/null
-then
-    if [[ $(command -v apt-get) ]]; then
-        sudo apt-get install -y screen
-    elif [[ $(command -v yum) ]]; then
-        sudo yum install -y screen
-    elif [[ $(command -v dnf) ]]; then
-        sudo dnf install -y screen
-    else
-        echo "不支持的操作系统" && exit 1
-    fi
-fi
-# 创建新目录
-mkdir /home/lighthouse/ffmpeg
-cd /home/lighthouse/ffmpeg
 PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 export PATH
 #=================================================================#
@@ -39,15 +13,13 @@ red='\033[0;31m'
 green='\033[0;32m'
 yellow='\033[0;33m'
 font="\033[0m"
+
 ffmpeg_install(){
 # 安装FFMPEG
 read -p "你的机器内是否已经安装过FFmpeg4.x?安装FFmpeg才能正常推流,是否现在安装FFmpeg?(yes/no):" Choose
 if [ $Choose = "yes" ];then
 	yum -y install wget
-	wget --no-check-certificate https://www.johnvansickle.com/ffmpeg/old-releases/ffmpeg-4.0.3-64bit-static.tar.xz
-	tar -xJf ffmpeg-4.0.3-64bit-static.tar.xz
-	cd ffmpeg-4.0.3-64bit-static
-	mv ffmpeg /usr/bin && mv ffprobe /usr/bin && mv qt-faststart /usr/bin && mv ffmpeg-10bit /usr/bin
+	wget -N --no-check-certificate https://raw.githubusercontent.com/ToyoDAdoubi/doubi/master/ffmpeg.sh && chmod +x ffmpeg.sh && bash ffmpeg.sh
 fi
 if [ $Choose = "no" ]
 then
@@ -55,7 +27,8 @@ then
     sleep 2
 fi
 	}
-    stream_start(){
+
+stream_start(){
 # 定义推流地址和推流码
 read -p "输入你的推流地址和推流码(rtmp协议):" rtmp
 
@@ -82,7 +55,7 @@ if [ $watermark = "yes" ];then
 		cd $folder
 		for video in $(ls *.mp4)
 		do
-		ffmpeg -re -i "$video" -i "$image" -filter_complex overlay=W-w-5:5 -c:v libx264 -c:a aac -b:a 192k -strict -2 -f flv ${rtmp}
+		ffmpeg -re -i "$video" -i $image -filter_complex "overlay=main_w-overlay_w-10:10" -c:v copy -c:a aac -b:a 192k -strict -2 -f flv ${rtmp}
 		done
 	done
 fi
@@ -106,6 +79,7 @@ stream_stop(){
 	screen -S stream -X quit
 	killall ffmpeg
 	}
+
 # 开始菜单设置
 echo -e "${yellow} CentOS7 X86_64 FFmpeg无人值守循环推流 For LALA.IM ${font}"
 echo -e "${red} 请确定此脚本目前是在screen窗口内运行的! ${font}"
@@ -129,6 +103,6 @@ start_menu(){
         ;;
     esac
 	}
+
 # 运行开始菜单
 start_menu
-
