@@ -13,7 +13,7 @@ red='\033[0;31m'
 green='\033[0;32m'
 yellow='\033[0;33m'
 font="\033[0m"
-#!/bin/bash
+
 # 检测 curl、gnupg2、ca-certificates 和 unzip 工具是否已经安装
 if [[ $(command -v curl) && $(command -v gnupg2) && $(command -v ca-certificates) && $(command -v unzip) ]]; then
     echo "依赖工具已经安装，跳过安装步骤 ..."
