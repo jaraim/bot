@@ -60,7 +60,7 @@ start_screen() {
 }
   }
   # 关闭screen窗口
-close screen () {
+close screen() {
     screen -S stream -X quit
     killall ffmpeg
     }   
