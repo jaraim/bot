@@ -126,3 +126,4 @@ start_menu(){
 
 # 运行开始菜单
 start_menu
+EOF
