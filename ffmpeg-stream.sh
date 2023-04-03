@@ -101,15 +101,20 @@ fi
 if [ $watermark = "n" ]
 then
     echo -e "${yellow} 你选择不添加水印,程序将开始推流. ${font}"
+   
     # 循环
 	while true
-	do
-		cd $folder
-		for video in $(ls *.mp4)
-		do
-		ffmpeg -re -i "$video" -c:v copy -c:a aac -b:a 192k -strict -2 -f flv ${rtmp}&
-		done
-	done
+do
+  cd "$folder"
+  for video in $(ls *.mp4 2>/dev/null)
+  do
+    if [ ! -f "$video" ]; then
+      continue
+    fi
+    ffmpeg -re -i "$video" -c:v copy -c:a aac -b:a 192k -strict -2 -f flv "$rtmp" &
+  done
+  sleep 1s
+done
 fi
 	}
 
@@ -118,8 +123,6 @@ stream_stop(){
 	screen -S stream -X quit
 	killall ffmpeg
 	}
-
-
 # 开始菜单设置
 echo -e "${yellow} CentOS7 X86_64 FFmpeg无人值守循环推流 For LALA.IM ${font}"
 echo -e "${red} 请确定此脚本目前是在screen窗口内运行的! ${font}"
