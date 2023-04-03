@@ -1,8 +1,4 @@
 #!/bin/bash
-# 授予执行权限并运行脚本
-chmod +x ffmpeg_stream.sh
-./ffmpeg_stream.sh
-# 检测系统版本并更新软件包
 if cat /etc/*release | grep "CentOS Linux 7" &> /dev/null
 then
     yum -y update
@@ -32,6 +28,9 @@ fi
 # 创建新目录并进入
 mkdir /home/lighthouse/ffmpeg
 cd /home/lighthouse/ffmpeg
+# 授予执行权限并运行脚本
+chmod +x ffmpeg_stream.sh
+./ffmpeg_stream.sh
 PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 export PATH
 #=================================================================#
