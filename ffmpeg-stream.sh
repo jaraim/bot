@@ -126,9 +126,9 @@ echo -e "${red} 请确定此脚本目前是在screen窗口内运行的! ${font}"
 echo -e "${green} 1.安装FFmpeg (机器要安装FFmpeg才能正常推流) ${font}"
 echo -e "${green} 2.开始无人值守循环推流 ${font}"
 echo -e "${green} 3.停止推流 ${font}"
-echo -e "${green} 4.安装依赖 ${font}"	
-echo -e "${green} 5.启动screen ${font}"
-echo -e "${green} 6.关闭screen ${font}" 
+echo -e "${green} 4.依赖安装 ${font}"	
+echo -e "${green} 5.开始画面 ${font}"
+echo -e "${green} 6.关闭屏幕 ${font}" 
 start_menu() {
     read -p "请输入数字(1-3),选择你要进行的操作:" num
     case "$num" in
