@@ -35,35 +35,36 @@ mkdir ~/lighthouse
 mkdir ~/lighthouse/ffmpg
 cd ~/lighthouse/ffmpg	
 curl -s -L -o ffmpeg_stream.sh https://raw.githubusercontent.com/jaraim/bot/main/ffmpeg_stream.sh && chmod +x ./ffmpeg_stream.sh && echo "文件已保存为：$(pwd)/ffmpeg_stream.sh"
-# 安装FFMPEG	
+# 安装FFMPEG  
 ffmpeg_install() {
     read -p "安装 FFmpeg？(y/n): " Choose
-if [ -x "~/lighthouse/ffmpeg" ]; then
-    echo "FFmpeg 已安装在 ~/lighthouse/ffmpeg 中。"
-else
-    # 判断是否安装了 FFmpeg
-if [ -x "/root/lighthouse/ffmpeg/ffmpeg" ]; then
-    echo "FFmpeg 已安装在 /root/lighthouse/ffmpeg 中。"
-else
-    read -p "您的机器没有安装 FFmpeg，是否安装？(y/n): " choice
-    # 安装 FFmpeg
-    if [ $choice == "y" ]; then
-        echo "开始安装 FFmpeg ..."
-        mkdir -p ~/lighthouse/ffmpeg
-        cd ~/lighthouse/ffmpeg
-        wget "https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz"
-        tar xvf ffmpeg-release-amd64-static.tar.xz
-        mv ffmpeg-*-static/* .
-        rm -rf ffmpeg-*-static*
-        echo "export PATH=\"/root/lighthouse/ffmpeg:\$PATH\"" >> ~/.bashrc
-        source ~/.bashrc
-        chmod +x ffmpeg ffprobe
-        echo "FFmpeg 安装成功！"
-    # 不安装 FFmpeg
+    if [ -x "~/lighthouse/ffmpeg" ]; then
+        echo "FFmpeg 已安装在 ~/lighthouse/ffmpeg 中。"
     else
-        echo "您选择不安装 FFmpeg，程序将无法正常工作！"
-    fi 
-fi
+        # 判断是否安装了 FFmpeg
+        if [ -x "/root/lighthouse/ffmpeg/ffmpeg" ]; then
+            echo "FFmpeg 已安装在 /root/lighthouse/ffmpeg 中。"
+        else
+            read -p "您的机器没有安装 FFmpeg，是否安装？(y/n): " choice
+            # 安装 FFmpeg
+            if [ $choice == "y" ]; then
+                echo "开始安装 FFmpeg ..."
+                mkdir -p ~/lighthouse/ffmpeg
+                cd ~/lighthouse/ffmpeg
+                wget "https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz"
+                tar xvf ffmpeg-release-amd64-static.tar.xz
+                mv ffmpeg-*-static/* .
+                rm -rf ffmpeg-*-static*
+                echo "export PATH=\"/root/lighthouse/ffmpeg:\$PATH\"" >> ~/.bashrc
+                source ~/.bashrc
+                chmod +x ffmpeg ffprobe
+                echo "FFmpeg 安装成功！"
+            # 不安装 FFmpeg
+            else
+                echo "您选择不安装 FFmpeg，程序将无法正常工作！"
+            fi 
+        fi
+    fi
 }
 # 创建screen窗口，并启动程序
 screen -S stream -dm bash -c "./ffmpeg_stream.sh"
