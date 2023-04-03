@@ -13,7 +13,6 @@ red='\033[0;31m'
 green='\033[0;32m'
 yellow='\033[0;33m'
 font="\033[0m"
-
 ffmpeg_install(){
 # 安装FFMPEG
 read -p "你的机器内是否已经安装过FFmpeg4.x?安装FFmpeg才能正常推流,是否现在安装FFmpeg?(yes/no):" Choose
@@ -55,7 +54,7 @@ if [ $watermark = "yes" ];then
 		cd $folder
 		for video in $(ls *.mp4)
 		do
-		ffmpeg -re -i "$video" -i $image -filter_complex "overlay=main_w-overlay_w-10:10" -c:v copy -c:a aac -b:a 192k -strict -2 -f flv ${rtmp}
+		ffmpeg -re -i "$video" -i $image -filter_complex "overlay=main_w-overlay_w-10:10" -c:v copy -c:a aac -b:a 192000 -strict -2 -f flv ${rtmp}
 		done
 	done
 fi
@@ -68,7 +67,7 @@ then
 		cd $folder
 		for video in $(ls *.mp4)
 		do
-		ffmpeg -re -i "$video" -c:v copy -c:a aac -b:a 192k -strict -2 -f flv ${rtmp}
+		ffmpeg -re -i "$video" -c:v copy -c:a aac -b:a 192000 -strict -2 -f flv ${rtmp}
 		done
 	done
 fi
@@ -86,23 +85,30 @@ echo -e "${red} 请确定此脚本目前是在screen窗口内运行的! ${font}"
 echo -e "${green} 1.安装FFmpeg (机器要安装FFmpeg才能正常推流) ${font}"
 echo -e "${green} 2.开始无人值守循环推流 ${font}"
 echo -e "${green} 3.停止推流 ${font}"
-start_menu(){
-    read -p "请输入数字(1-3),选择你要进行的操作:" num
-    case "$num" in
-        1)
-        ffmpeg_install
-        ;;
-        2)
-        stream_start
-        ;;
-        3)
-        stream_stop
-        ;;
-        *)
-        echo -e "${red} 请输入正确的数字 (1-3) ${font}"
-        ;;
-    esac
-	}
+echo -e "${green} 4.退出脚本 ${font}"
+read -p "请输入数字:" num
+case "$num" in
+	(1)
+	ffmpeg_install
+	;;
+	(2)
+	stream_start
+	;;
+	(3)
+	stream_stop
+	;;
+	(4)
+	exit 1
+	;;
+	(*)
+	clear
+	echo -e "${red} 请输入正确数字 ${font}"
+	sleep 2
+	start_menu
+	;;
+esac
+
 
 # 运行开始菜单
 start_menu
+
