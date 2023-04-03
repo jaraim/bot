@@ -38,8 +38,8 @@ curl -s -L -o ffmpeg_stream.sh https://raw.githubusercontent.com/jaraim/bot/main
 # 安装FFMPEG	
 ffmpeg_install() {
     read -p "是否重新安装 FFmpeg？(yes/no): " Choose
-if [ -x "$(command -v ffmpeg)" ]; then
-    echo "FFmpeg 已安装。"
+if [ -x "~/lighthouse/ffmpeg/ffmpeg" ]; then
+    echo "FFmpeg 已安装在 ~/lighthouse/ffmpeg 中。"
 else
     # 询问是否安装 FFmpeg
     read -p "您的机器没有安装 FFmpeg，是否安装？(yes/no): " choice
@@ -51,8 +51,10 @@ else
         wget "https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz"
         tar xvf ffmpeg-release-amd64-static.tar.xz
         mv ffmpeg-*-static/* .
-        chmod +x ffmpeg ffprobe
         rm -rf ffmpeg-*-static*
+        echo "export PATH=\"/home/$USER/lighthouse/ffmpeg:\$PATH\"" >> ~/.bashrc
+        source ~/.bashrc
+        chmod +x ffmpeg ffprobe
         echo "FFmpeg 安装成功！"
     else
         echo "您选择不安装 FFmpeg，程序将无法正常工作！"
