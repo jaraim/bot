@@ -98,7 +98,7 @@ if [ $watermark = "y" ];then
 		done
 	done
 fi
-if [ $watermark = "no" ]
+if [ $watermark = "n" ]
 then
     echo -e "${yellow} 你选择不添加水印,程序将开始推流. ${font}"
     # 循环
