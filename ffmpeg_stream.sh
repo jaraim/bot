@@ -31,9 +31,9 @@ else
     fi
 fi
   #创建新目录
-mkdir /home/lighthouse
-mkdir /home/lighthouse/ffmpg
-cd /home/lighthouse/ffmpg	
+mkdir ~/lighthouse
+mkdir ~/lighthouse/ffmpg
+cd ~/lighthouse/ffmpg	
 # 安装FFMPEG	
 ffmpeg_install() {
     read -p "你的机器内是否已经安装过FFmpeg4.x?安装FFmpeg才能正常推流,是否现在安装FFmpeg?(yes/no):" Choose
