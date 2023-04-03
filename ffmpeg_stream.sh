@@ -1,15 +1,12 @@
 #!/bin/bash
-
 PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 export PATH
-
 #=================================================================#
 #   System Required: CentOS7 X86_64                               #
 #   Description: FFmpeg Stream Media Server                       #
 #   Author: LALA                                    #
 #   Website: https://www.lala.im                                  #
 #=================================================================#
-
 # 颜色选择
 red='\033[0;31m'
 green='\033[0;32m'
@@ -34,7 +31,6 @@ mkdir /home/lighthouse
 mkdir /home/lighthouse/ffmpg
 cd /home/lighthouse/ffmpg
 fi
-
 ffmpeg_install() {
     # 安装FFMPEG
     read -p "你的机器内是否已经安装过FFmpeg4.x?安装FFmpeg才能正常推流,是否现在安装FFmpeg?(yes/no):" Choose
