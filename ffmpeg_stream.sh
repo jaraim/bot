@@ -29,10 +29,10 @@ else
     else
         echo "不支持的操作系统" && exit 1
     fi
-    #创建新目录
-    mkdir /home/lighthouse
-    mkdir /home/lighthouse/ffmpg
-    cd /home/lighthouse/ffmpg
+  #创建新目录
+mkdir /home/lighthouse
+mkdir /home/lighthouse/ffmpg
+cd /home/lighthouse/ffmpg
 fi
 
 ffmpeg_install() {
@@ -50,7 +50,8 @@ ffmpeg_install() {
         sleep 2
     fi
 }
-
+# 创建screen窗口，并启动程序
+screen -S stream -dm bash -c "./ffmpeg_stream.sh"
 stream_start() {
     # 定义推流地址和推流码
     read -p "输入你的推流地址和推流码(rtmp协议):" rtmp
