@@ -25,12 +25,17 @@ then
     fi
 fi
 
-# 创建新目录并进入
+# 创建新目录
 mkdir /home/lighthouse/ffmpeg
-cd /home/lighthouse/ffmpeg
-# 授予执行权限并运行脚本
-chmod +x ffmpeg_stream.sh
-./ffmpeg_stream.sh
+# 进入目录并启动脚本
+if [ -d "/home/lighthouse/ffmpeg" ]
+then
+    cd /home/lighthouse/ffmpeg
+
+    # 授予执行权限并运行脚本
+    chmod +x ffmpeg_stream.sh
+    screen -dmS ffmpeg ./ffmpeg_stream.sh
+fi
 PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 export PATH
 #=================================================================#
