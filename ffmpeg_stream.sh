@@ -37,17 +37,25 @@ cd ~/lighthouse/ffmpg
 # 安装FFMPEG	
 ffmpeg_install() {
     read -p "你的机器内是否已经安装过FFmpeg4.x?安装FFmpeg才能正常推流,是否现在安装FFmpeg?(yes/no):" Choose
+    if ! [ -x "$(command -v ffmpeg)" ]; then
+    # 如果 FFmpeg 尚未安装，则询问用户是否现在安装
+    read -p "您的机器内尚未安装 FFmpeg，是否现在安装？(yes/no):" Choose
     if [[ $Choose = "yes" ]]; then
+        # 安装 FFmpeg
+        echo "开始安装 FFmpeg ..."
         yum -y install wget
         wget --no-check-certificate https://www.johnvansickle.com/ffmpeg/old-releases/ffmpeg-4.0.3-64bit-static.tar.xz
         tar -xJf ffmpeg-4.0.3-64bit-static.tar.xz
         cd ffmpeg-4.0.3-64bit-static
-        mv ffmpeg /usr/bin && mv ffprobe /usr/bin && mv qt-faststart /usr/bin && mv ffmpeg-10bit /usr/bin
+        sudo cp ffmpeg ffprobe /usr/local/bin/
+        echo "FFmpeg 安装成功！"
+    else
+        echo "您选择不安装 FFmpeg，程序可能无法正常工作！"
     fi
-    if [[ $Choose = "no" ]]; then
-        echo -e "${yellow} 你选择不安装FFmpeg,请确定你的机器内已经自行安装过FFmpeg,否则程序无法正常工作! ${font}"
-        sleep 2
-    fi
+else
+    # 如果已经安装了 FFmpeg，则给出提示
+    echo "FFmpeg 已经安装，无需重新安装。"
+fi
 }
 # 创建screen窗口，并启动程序
 screen -S stream -dm bash -c "./ffmpeg_stream.sh"
