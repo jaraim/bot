@@ -70,11 +70,11 @@ ffmpeg_install() {
     fi
 }
 # 创建screen窗口，并启动程序
-start screen () {
+start_screen() {
 screen -S stream -dm bash -c "./ffmpeg_stream.sh"
   }
   # 关闭screen窗口
-close screen () {
+close screen() {
     screen -S stream -X quit
     killall ffmpeg
   }
