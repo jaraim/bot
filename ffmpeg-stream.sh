@@ -150,7 +150,6 @@ start_menu() {
             echo -e "${red} 请输入正确的数字 (0-6) ${font}" ;;
     esac  
 }  
-
 # 运行开始菜单
 start_menu  
 EOF
