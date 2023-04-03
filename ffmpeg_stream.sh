@@ -16,7 +16,7 @@ green='\033[0;32m'
 yellow='\033[0;33m'
 font="\033[0m"
 # 检测 curl、gnupg2、ca-certificates 和 unzip 工具是否已经安装
-if [[ $(command -v curl) && $(command -v gnupg2) && $(command -v ca-certificates) && $(command -v unzip)&&command -v screen ]]; then
+if [[ $(command -v curl) && $(command -v gnupg2) && $(command -v ca-certificates) && $(command -v unzip)&&command -v screen -v ]]; then
     echo "依赖工具已经安装，跳过安装步骤 ..."
 else
     # 安装依赖工具
@@ -50,6 +50,19 @@ ffmpeg_install() {
         sleep 2
     fi
 }
+# 下载 FFmpeg 静态编译版本
+echo "开始下载 FFmpeg 静态编译版本 ..."
+curl -O https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz
+
+# 下载 FFmpeg 解码器库
+echo "开始下载 FFmpeg 解码器库 ..."
+curl -O https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-shared.tar.xz
+
+# 解压文件并将可执行文件复制到可执行目录
+echo "开始解压和安装 FFmpeg ..."
+tar -xvf ffmpeg-release-amd64-static.tar.xz
+cd ffmpeg*
+sudo cp ffmpeg ffprobe /usr/local/bin/
 # 创建screen窗口，并启动程序
 screen -S stream -dm bash -c "./ffmpeg_stream.sh"
 stream_start() {
