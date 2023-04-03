@@ -76,7 +76,7 @@ stream_start() {
         while true; do
             cd $folder
             for video in $(ls *.mp4); do
-                ffmpeg -re -i "$video" -i "$image" -filter_complex overlay=W-w-5:5 -c:v libx264 -c:a aac -b:a 192k -strict -2 -f flv ${rtmp}
+                ffmpeg -re -i "$video" -i "$image" -filter_complex overlay=W-w-5:5 -c:v libx264 -c:a aac -b:a 192k -strict -2 -f flv ${rtmp}&
             done
         done
     fi
@@ -86,7 +86,7 @@ stream_start() {
         while true; do
             cd $folder
             for video in $(ls *.mp4); do
-                ffmpeg -re -i "$video" -c:v copy -c:a aac -b:a 192k -strict -2 -f flv ${rtmp}
+                ffmpeg -re -i "$video" -c:v copy -c:a aac -b:a 192k -strict -2 -f flv ${rtmp}&
             done
         done
     fi
