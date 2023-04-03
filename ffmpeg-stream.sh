@@ -148,7 +148,7 @@ start_menu() {
             exit_file
 	*)
             echo -e "${red} 请输入正确的数字 (0-6) ${font}" ;;
-    esac	
+    esac  
 }	
 
 # 运行开始菜单
