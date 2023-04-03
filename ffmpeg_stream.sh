@@ -21,11 +21,11 @@ if [[ $(command -v curl) && $(command -v gnupg2) && $(command -v ca-certificates
 else
     # 安装依赖工具
     if [[ $(command -v apt-get) ]]; then
-        sudo apt-get update -y && sudo apt-get install -y curl gnupg2 ca-certificates unzip screen
+        sudo apt-get update && \sudo apt-get install -y curl gnupg2 ca-certificates unzip screen 
     elif [[ $(command -v yum) ]]; then
-        sudo yum update -y && sudo yum install -y curl gnupg2 ca-certificates unzip screen
+        sudo yum update -y && \sudo yum install -y curl gnupg2 ca-certificates unzip screen
     elif [[ $(command -v dnf) ]]; then
-        sudo dnf update -y && sudo dnf install -y curl gnupg2 ca-certificates unzip screen
+        sudo dnf update -y && \sudo dnf install -y curl gnupg2 ca-certificates unzip screen
     else
         echo "不支持的操作系统" && exit 1
     fi
