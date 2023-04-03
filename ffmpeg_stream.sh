@@ -104,7 +104,7 @@ read -p "是否需要为视频添加水印?水印位置默认在右上方,需要
         while true; do
 		cd $folder
             for video in $(ls *.mp4); do
-		ffmpeg -re -i "$video" -i "$image" -filter_complex overlay=W-w-5:5 -c:v libx264 -c:a aac -b:a 192k -strict -2 -f flv ${rtmp}&
+		ffmpeg -re -i "$video" -i "$image" -filter_complex overlay=W-w-5:5 -c:v libx264 -c:a aac -b:a 192k -strict -2 -f flv ${rtmp}
 		done
 	done
 fi
@@ -114,7 +114,7 @@ fi
         while true; do
 		cd $folder
             for video in $(ls *.mp4); do
-		ffmpeg -re -i "$video" -c:v copy -c:a aac -b:a 192k -strict -2 -f flv ${rtmp}&
+		ffmpeg -re -i "$video" -c:v copy -c:a aac -b:a 192k -strict -2 -f flv ${rtmp}
 		done
 	done
 fi
