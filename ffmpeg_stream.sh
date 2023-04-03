@@ -30,6 +30,7 @@ else
         echo "不支持的操作系统" && exit 1
     fi
     #创建新目录
+    mkdir /home/lighthouse
     mkdir /home/lighthouse/ffmpg
     cd /home/lighthouse/ffmpg
 fi
