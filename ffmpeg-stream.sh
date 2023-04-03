@@ -88,15 +88,24 @@ read -p "是否需要为视频添加水印?水印位置默认在右上方,需要
 if [ $watermark = "y" ];then
 	read -p "输入你的水印图片存放绝对路径,例如/opt/image/watermark.jpg (格式支持jpg/png/bmp):" image
 	echo -e "${yellow} 添加水印完成,程序将开始推流. ${font}"
-	# 循环
-	while true
-	do
-		cd $folder
-		for video in $(ls *.mp4)
-		do
-		ffmpeg -re -i "$video" -i "$image" -filter_complex overlay=W-w-5:5 -c:v libx264 -c:a aac -b:a 192k -strict -2 -f flv ${rtmp}&
-		done
-	done
+	while true; do
+  for video in "${folder}"/*.mp4
+  do
+    # 如果视频文件不存在，则跳过
+    if [ ! -f "$video" ]; then
+      continue
+    fi
+
+    # 推流命令
+    if [ $watermark = "y" ];then
+      ffmpeg -re -i "$video" -i "$image" -filter_complex overlay=W-w-5:5 -c:v libx264 -c:a aac -b:a 192k -strict -2 -f flv ${rtmp} &
+    else
+      ffmpeg -re -i "$video" -c:v copy -c:a aac -b:a 192k -strict -2 -f flv ${rtmp} &
+    fi
+  done
+  # 暂停 1 秒
+  sleep 1s
+done
 fi
 if [ $watermark = "n" ]
 then
@@ -108,6 +117,10 @@ do
   cd "$folder"
   for video in $(ls *.mp4 2>/dev/null)
   do
+   # 如果视频文件不存在，则跳过
+    if [ ! -f "$video" ]; then
+      continue
+    fi
     if [ ! -f "$video" ]; then
       continue
     fi
