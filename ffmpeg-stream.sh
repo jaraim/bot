@@ -103,8 +103,8 @@ if [ $watermark = "y" ];then
       ffmpeg -re -i "$video" -c:v copy -c:a aac -b:a 192k -strict -2 -f flv ${rtmp} &
     fi
   done
-  # 暂停 1 秒
-  sleep 1s
+  # 暂停 3 秒
+  sleep 3s
 done
 fi
 if [ $watermark = "n" ]
@@ -126,7 +126,7 @@ do
     fi
     ffmpeg -re -i "$video" -c:v copy -c:a aac -b:a 192k -strict -2 -f flv "$rtmp" &
   done
-  sleep 1s
+  sleep 3s
 done
 fi
 	}
