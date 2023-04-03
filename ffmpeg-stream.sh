@@ -15,8 +15,9 @@ red='\033[0;31m'
 green='\033[0;32m'
 yellow='\033[0;33m'
 font="\033[0m"
-#安装依赖
+
 dependency_install() {
+#安装依赖
 # 检测 curl、gnupg2、ca-certificates 和 unzip 工具是否已经安装
 if [[ $(command -v curl) && $(command -v gnupg2) && $(command -v ca-certificates) && $(command -v unzip) && $(command -v screen) ]]; then
     echo "依赖工具已经安装，跳过安装步骤 ..."
@@ -54,13 +55,15 @@ then
     sleep 2
 fi
 	}
-# 创建screen窗口，并启动程序
+
 start_screen() {
+# 创建screen窗口，并启动程序
     screen -S stream -dm bash -c "./ffmpeg_stream.sh"
 }
 
-  # 关闭screen窗口
+ 
 close_screen() {
+ # 关闭screen窗口
     screen -S stream -X quit
     killall ffmpeg
 }
