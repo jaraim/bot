@@ -71,13 +71,16 @@ ffmpeg_install() {
 }
 # 创建screen窗口，并启动程序
 start_screen() {
-screen -S stream -dm bash -c "./ffmpeg_stream.sh"
-  }
-  # 关闭screen窗口
-close screen() {
+# 创建screen窗口，并启动程序
+    screen -S stream -dm bash -c "./ffmpeg_stream.sh"
+}
+
+ 
+close_screen() {
+ # 关闭screen窗口
     screen -S stream -X quit
     killall ffmpeg
-  }
+}
 stream_start() {
     # 定义推流地址和推流码
     read -p "输入你的推流地址和推流码(rtmp协议):" rtmp
