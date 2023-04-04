@@ -1,6 +1,3 @@
-python
--*- coding: utf-8 -*-
-# 文件编码声明已生效，可以使用非 ASCII 字符。
 import os
 import sys
 import shutil
@@ -45,16 +42,18 @@ def install_dependence():
 
     # 安装screen，screen是一个终端复用器，可以在一个终端中同时打开多个终端，可以在后台运行程序
     if shutil.which('screen') is not None:    # 判断是否安装 screen
-        print('screen is installed')        # 已安装
+        print('screen 已安装')        # 已安装
     else:
         print('screen is not installed')
     if os.path.isfile('/etc/redhat-release'):   # 判断是否为 CentOS 系统
         subprocess.run(['yum', '-y', 'install', 'screen'])  # 安装 screen
     elif os.path.isfile('/etc/lsb-release'):    # 判断是否为 Ubuntu 系统
         subprocess.run(['apt-get', '-y', 'install', 'screen'])  # 安装 screen
+    # 显示screen安装成功
+    print('screen安装成功')          
     # 安装ffmpeg 用于合并视频
     if shutil.which('ffmpeg') is not None:    # 判断是否安装 ffmpeg
-        print('ffmpeg is installed')        # 已安装
+        print('ffmpeg 已安装')        # 已安装
     else:
         print('ffmpeg is not installed')
     if os.path.isfile('/etc/redhat-release'):
@@ -62,11 +61,12 @@ def install_dependence():
         subprocess.run(['yum', '-y', 'install', 'ffmpeg'])
     elif os.path.isfile('/etc/lsb-release'):
         subprocess.run(['apt-get', '-y', 'install', 'ffmpeg'])
-
+    # 显示ffmpeg安装成功
+    print('ffmpeg安装成功')
     # 判断是否安装Supervisor，如果未安装则安装，如果已安装则不安装
-        if shutil.which('supervisord') is not None:    # 判断是否安装 Supervisor
-            print('supervisord is installed')        # 已安装
-        else:
+    if shutil.which('supervisord') is not None:    # 判断是否安装 Supervisor
+            print('supervisord已安装')        # 已安装
+    else:
             print('supervisord is not installed')
             if os.path.isfile('/etc/redhat-release'):   # 判断是否为 CentOS 系统
                 # 安装 Supervisor
@@ -74,6 +74,8 @@ def install_dependence():
             elif os.path.isfile('/etc/lsb-release'):    # 判断是否为 Ubuntu 系统
                 # 安装 Supervisor
                 subprocess.run(['apt-get', '-y', 'install', 'supervisor'])
+            # 显示 Supervisor 安装成功
+            print('supervisor安装成功')
 # 创建 screen窗口，如果已存在则不创建
 subprocess.run(['screen', '-dmS', 'replit'])    # 创建 screen 窗口
 #标记推流
@@ -151,3 +153,4 @@ elif option == '0':
     exit()
 else:
     print('输入错误')
+    exit()  # 退出程序
