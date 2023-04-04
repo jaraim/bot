@@ -1,5 +1,6 @@
 python
-# -*- coding: utf-8 -*-
+-*- coding: utf-8 -*-
+# 文件编码声明已生效，可以使用非 ASCII 字符。
 import os
 import sys
 import shutil
