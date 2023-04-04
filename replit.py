@@ -1,11 +1,11 @@
-import os   # 导入 os 模块    #pip install os
-import sys  # 导入 sys 模块    #pip install sys 
-import shlex    # 导入 shlex 模块    #pip install shlex
-import shutil   # 导入 shutil 模块    #pip install shutil
-import logging  # 导入 logging 模块   #pip install logging
-import subprocess   # 导入 subprocess 模块    #pip install subprocess
-from pyrtmp import PyRTMP   # 导入 PyRTMP 模块 #pip install pyrtmp
-from datetime import datetime   # 导入 datetime 模块    #pip install datetime
+import os   # 导入 os 模块    #pip3 install os
+import sys  # 导入 sys 模块    #pip3 install sys 
+import shlex    # 导入 shlex 模块    #pip3 install shlex
+import shutil   # 导入 shutil 模块    #pip3 install shutil
+import logging  # 导入 logging 模块   #pip3 install logging
+import subprocess   # 导入 subprocess 模块    #pip3 install subprocess
+from datetime import datetime   # 导入 datetime 模块    #pip3 install datetime
+from pyrtmp import PyRTMP   # 导入 PyRTMP 模块 #pip3 install pyrtmp
 # 下载 replit.py
 def download_replit():
     if os.path.isfile('/root/replit.py'):   # 判断是否下载 replit.py
@@ -59,6 +59,32 @@ def install_dependence():
         print('wget安装成功')        # 已安装
     else:
         print('wget安装失败')        # 未安装
+
+     #检测python是否安装,如果没有安装则安装python3
+if os.path.isfile('/usr/bin/python3'):
+    print('python3 已安装') #已安装  
+else:
+    print('python3 is 未安装')   #未安装 
+    if os.path.isfile('/etc/redhat-release'):
+        subprocess.run(['yum', '-y', 'install', 'python3'])
+    elif os.path.isfile('/etc/lsb-release'):
+        subprocess.run(['apt-get', '-y', 'install', 'python3'])
+#检测pip3是否安装，如果没有安装则安装pip3
+if os.path.isfile('/usr/bin/pip3'):
+    print('pip3 已安装')#已安装
+else:
+    print('pip3 is 未安装')  #未安装
+    if os.path.isfile('/etc/redhat-release'):
+        subprocess.run(['yum', '-y', 'install', 'python3-pip'])
+    elif os.path.isfile('/etc/lsb-release'):
+        subprocess.run(['apt-get', '-y', 'install', 'python3-pip'])
+#检测pyrtmp是否安装 ,如果没有安装则安装pyrtmp       
+if os.path.isfile('/usr/local/lib/python3.6/dist-packages/pyrtmp.py'):
+    print('pyrtmp 已安装')#已安装
+else:
+    print('pyrtmp is 未安装')  #未安装
+    subprocess.run(['pip3', 'install', 'pyrtmp'])
+   
 
     # 安装screen，screen是一个终端复用器，可以在一个终端中同时打开多个终端，可以在后台运行程序
     if shutil.which('screen') is not None:    # 判断是否安装 screen
