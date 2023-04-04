@@ -1,7 +1,11 @@
-import os
-import sys
-import shutil
-import subprocess
+import os   # 导入 os 模块    #pip install os
+import sys  # 导入 sys 模块    #pip install sys 
+import shlex    # 导入 shlex 模块    #pip install shlex
+import shutil   # 导入 shutil 模块    #pip install shutil
+import logging  # 导入 logging 模块   #pip install logging
+import subprocess   # 导入 subprocess 模块    #pip install subprocess
+from pyrtmp import PyRTMP   # 导入 PyRTMP 模块 #pip install pyrtmp
+from datetime import datetime   # 导入 datetime 模块    #pip install datetime
 # 下载 replit.py
 def download_replit():
     if os.path.isfile('/root/replit.py'):   # 判断是否下载 replit.py
@@ -16,6 +20,7 @@ def download_replit():
             'nohup python3 /root/replit.py 1 > /dev/null 2>&1 &', shell=True)
 # 更新系统
 def update_system():
+    # 安装python3
     if os.path.isfile('/etc/redhat-release'):  # 判断是否为 CentOS 系统
         subprocess.run(['yum', '-y', 'update'])  # 更新系统
         subprocess.run(['yum', '-y', 'install', 'python3'])  # 安装 Python3
@@ -40,6 +45,21 @@ def update_system():
 # 安装依赖
 def install_dependence():
 
+    # 安装wget，wget是一个网络下载工具，可以从网络上下载文件到本地
+    if shutil.which('wget') is not None:    # 判断是否安装 wget
+        print('wget 已安装')        # 已安装
+    else:
+        print('wget is not installed')
+    if os.path.isfile('/etc/redhat-release'):   # 判断是否为 CentOS 系统
+        subprocess.run(['yum', '-y', 'install', 'wget'])  # 安装 wget
+    elif os.path.isfile('/etc/lsb-release'):    # 判断是否为 Ubuntu 系统
+        subprocess.run(['apt-get', '-y', 'install', 'wget'])  # 安装 wget
+    # 检测wget是否安装成功，如果安装成功则显示安装成功，如果安装失败则显示安装失败
+    if shutil.which('wget') is not None:    # 判断是否安装 wget
+        print('wget安装成功')        # 已安装
+    else:
+        print('wget安装失败')        # 未安装
+
     # 安装screen，screen是一个终端复用器，可以在一个终端中同时打开多个终端，可以在后台运行程序
     if shutil.which('screen') is not None:    # 判断是否安装 screen
         print('screen 已安装')        # 已安装
@@ -49,8 +69,12 @@ def install_dependence():
         subprocess.run(['yum', '-y', 'install', 'screen'])  # 安装 screen
     elif os.path.isfile('/etc/lsb-release'):    # 判断是否为 Ubuntu 系统
         subprocess.run(['apt-get', '-y', 'install', 'screen'])  # 安装 screen
-    # 显示screen安装成功
-    print('screen安装成功')          
+    # 检测screen是否安装成功，如果安装成功则显示安装成功，如果安装失败则显示安装失败
+    if shutil.which('screen') is not None:    # 判断是否安装 screen
+        print('screen安装成功')        # 已安装
+    else:
+        print('screen安装失败')        # 未安装
+            
     # 安装ffmpeg 用于合并视频
     if shutil.which('ffmpeg') is not None:    # 判断是否安装 ffmpeg
         print('ffmpeg 已安装')        # 已安装
@@ -61,8 +85,31 @@ def install_dependence():
         subprocess.run(['yum', '-y', 'install', 'ffmpeg'])
     elif os.path.isfile('/etc/lsb-release'):
         subprocess.run(['apt-get', '-y', 'install', 'ffmpeg'])
-    # 显示ffmpeg安装成功
-    print('ffmpeg安装成功')
+    # 检测ffmpeg是否安装成功，如果安装成功则显示安装成功，如果安装失败则显示安装失败   
+    if shutil.which('ffmpeg') is not None:    # 判断是否安装 ffmpeg
+        print('ffmpeg安装成功')        # 已安装
+    else:
+        print('ffmpeg安装失败')        # 未安装
+        #从https://www.johnvansickle.com/ffmpeg/old-releases/ffmpeg-4.0.3-64bit-static.tar.xz下载ffmpeg
+        subprocess.run(['wget', '-O', '/root/ffmpeg-4.0.3-64bit-static.tar.xz', 'https://www.johnvansickle.com/ffmpeg/old-releases/ffmpeg-4.0.3-64bit-static.tar.xz'])
+        #解压ffmpeg
+        subprocess.run(['tar', '-xvf', '/root/ffmpeg-4.0.3-64bit-static.tar.xz'])
+        #移动ffmpeg到/usr/bin
+        subprocess.run(['mv', '/root/ffmpeg-4.0.3-64bit-static/ffmpeg', '/usr/bin/ffmpeg'])
+        #移动ffprobe到/usr/bin
+        subprocess.run(['mv', '/root/ffmpeg-4.0.3-64bit-static/ffprobe', '/usr/bin/ffprobe'])
+        #移动ffplay到/usr/bin
+        subprocess.run(['mv', '/root/ffmpeg-4.0.3-64bit-static/ffplay', '/usr/bin/ffplay'])
+        #删除ffmpeg-4.0.3-64bit-static.tar.xz
+        subprocess.run(['rm', '-rf', '/root/ffmpeg-4.0.3-64bit-static.tar.xz'])
+        #删除ffmpeg-4.0.3-64bit-static
+        subprocess.run(['rm', '-rf', '/root/ffmpeg-4.0.3-64bit-static'])
+        #检测ffmpeg是否安装成功，如果安装成功则显示安装成功，如果安装失败则显示安装失败
+        if shutil.which('ffmpeg') is not None:    # 判断是否安装 ffmpeg
+            print('ffmpeg安装成功')        # 已安装
+        else:    
+            print('ffmpeg安装失败')        # 未安装
+
     # 判断是否安装Supervisor，如果未安装则安装，如果已安装则不安装
     if shutil.which('supervisord') is not None:    # 判断是否安装 Supervisor
             print('supervisord已安装')        # 已安装
@@ -74,55 +121,161 @@ def install_dependence():
             elif os.path.isfile('/etc/lsb-release'):    # 判断是否为 Ubuntu 系统
                 # 安装 Supervisor
                 subprocess.run(['apt-get', '-y', 'install', 'supervisor'])
-            # 显示 Supervisor 安装成功
-            print('supervisor安装成功')
+            # 判断是否安装 Supervisor，如果安装成功则显示安装成功，如果安装失败则显示安装失败
+            if shutil.which('supervisord') is not None:    # 判断是否安装 Supervisor
+                print('supervisord安装成功')        # 已安装    
+            else:
+                print('supervisord安装失败')        # 未安装
+    # 判断是否安装pyrtmp,如果未安装则安装，如果已安装则不安装
+    if shutil.which('pyrtmp') is not None:    # 判断是否安装 pyrtmp
+            print('pyrtmp已安装')        # 已安装
+    else:
+            print('pyrtmp is not installed')
+            # 安装 pyrtmp
+            subprocess.run(['pip', 'install', 'pyrtmp'])
+            # 判断是否安装 pyrtmp，如果安装成功则显示安装成功，如果安装失败则显示安装失败
+            if shutil.which('pyrtmp') is not None:    # 判断是否安装 pyrtmp
+                print('pyrtmp安装成功')        # 已安装
+            else:
+                print('pyrtmp安装失败')        # 未安装
+
 # 创建 screen窗口，如果已存在则不创建
 subprocess.run(['screen', '-dmS', 'replit'])    # 创建 screen 窗口
-#标记推流
-def start_push(url, mp4dir):
+#screen窗口推流
+
+def screen_push(url, mp4dir):
     # 后台screen 窗口运行ffmpeg，播放目录下所有视频文件
     subprocess.run(['screen', '-S', 'replit', '-X', 'stuff',
                     'ffmpeg -re -i ' + mp4dir + ' -c copy -f flv ' + url + ' \n'])  # 后台运行 ffmpeg
-    print('推流成功')
+    print('推流成功')   # 推流成功
+
+#开始ffmpeg推流
+def start_push(url, mp4dir):
+    video_files = [f for f in os.listdir(mp4dir) if f.endswith('.mp4')]
+    if not video_files:
+        logging.error('No video files found in {}'.format(mp4dir))
+        return
+
+    for file in video_files:
+        filepath = os.path.join(mp4dir, file)
+        logging.info('Pushing video {}'.format(filepath))
+
+        ffmpeg_command = 'ffmpeg -re -i "{}" -c:v libx264 -preset:v superfast -tune:v zerolatency ' \
+                         '-c:a aac -b:a 128k -f flv "{}"'.format(filepath, url)
+
+        args = shlex.split(ffmpeg_command)
+
+        with subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE) as process:
+            try:
+                while process.poll() is None:
+                    line = process.stderr.readline()
+                    if not line:
+                        break
+
+                    logging.info(line.decode('utf-8').strip())
+
+            except Exception as e:
+                logging.error('Error pushing stream: {}'.format(e))
+
+        print('推流已结束')
+    
+#开始PyRTMP推流
+def start_push_pyrtmp(url, mp4dir):
+    # 后台screen 窗口运行PyRTMP,获取所有 .mp4 和 .flv 文件
+    video_files = [f for f in os.listdir(mp4dir) if f.endswith('.mp4')]
+    if not video_files:
+        logging.error('No video files found in {}'.format(mp4dir))
+        return
+
+    rtmp = PyRTMP(url)
+    if not rtmp.connect():
+        logging.error('Failed to connect to RTMP server')
+        return
+
+    try:
+        for file in video_files:
+            filepath = os.path.join(mp4dir, file)
+            logging.info('Pushing video {}'.format(filepath))
+
+            st = os.stat(filepath)
+            file_size = st.st_size
+
+            with open(filepath, 'rb') as f:
+                chunk_size = 1024 * 1024
+                timestamp = None
+
+                while True:
+                    data = f.read(chunk_size)
+
+                    if not data:
+                        break
+
+                    frame_type = 0x01
+                    data_type = 0x09
+                    stream_id = 0x01
+                    ts = int(datetime.now().timestamp() * 1000)
+
+                    # 为第一帧设置时间戳
+                    if timestamp is None:
+                        timestamp = ts
+
+                    header = (frame_type << 4) | data_type
+
+                    rtmp.set_chunk_size(chunk_size)
+                    rtmp.set_peer_bandwidth(chunk_size * 8, 2)
+                    rtmp.send_packet(header, stream_id, timestamp, ts, data)
+
+                    timestamp += 200
+
+                    if file_size < chunk_size:
+                        remaining = chunk_size - file_size
+                        padding = bytearray(remaining)
+                        rtmp.send_packet(0x02, stream_id, ts, ts, padding)
+
+                    file_size -= chunk_size
+
+    except Exception as e:
+        logging.error('Error pushing stream: {}'.format(e))
+
+    rtmp.close()
+
+    print('推流已结束')
 #开始循环推流
 def start():
-    # 选项输入数字选择，1 推流地址/推流码 2 播放目录 3 更改推流地址 4 更改推流码 5 退出
-    print('1 推流地址/推流码 2 播放目录 3 更改推流地址 4 更改推流码 5 退出')
-    option = input('请输入选项：')
-    if option == '1':
-        url = input('请输入推流地址/推流码：')
-        if url == '':
-            print('推流地址/推流码不能为空')
-            exit()
-        print('推流地址/推流码设置成功')
-    elif option == '2':
-        mp4dir = input('请输入播放目录：')
-        if mp4dir == '':
-            print('播放目录不能为空')
-            exit()
-        print('播放目录设置成功')
-        # 判断播放目录是否存在
-        if os.path.exists(mp4dir):
-            print('目录存在')
-        #跳到def start_push(url, mp4dir)标记推流
-            start_push(url, mp4dir) # 开始推流
-        else:
-            print('目录不存在')
-            exit()
-    elif option == '3':
-        url = input('请输入推流地址：')
-        if url == '':
-            print('推流地址不能为空')
-            exit()
-        print('推流地址设置成功')
-    elif option == '4':
-        url = input('请输入推流码：')
-        if url == '':
-            print('推流码不能为空')
-            exit()
-        print('推流码设置成功')
-    elif option == '5':
-        exit()  # 退出程序
+    url = ''
+    mp4dir = ''
+    # 选项输入数字选择，1 推流地址/推流码 2 播放目录 3 更改推流地址 4 更改推流码 5 ffmpeg推流 6 PyRTMP推流 7 screen窗口推流 0 退出
+    print('选项输入数字选择，1 推流地址/推流码 2 播放目录 3 更改推流地址 4 更改推流码 5 ffmpeg推流 6 PyRTMP推流 7 screen窗口推流 0 退出')   
+    # 输入选项
+    choose = input('输入选项：')
+    if choose == '1':  # 1 推流地址/推流码
+            url = input('输入推流地址/推流码：')
+            print('推流地址/推流码：' + url)
+    elif choose == '2':  # 2 播放目录
+            mp4dir = input('输入播放目录：')
+            print('播放目录：' + mp4dir)
+    elif choose == '3':  # 3 更改推流地址
+            url = input('输入推流地址：')
+            print('推流地址：' + url)
+    elif choose == '4':  # 4 更改推流码
+            code = input('输入推流码：')
+            url = url.split('/')[0] + '/' + code
+            print('推流地址/推流码：' + url)
+    elif choose == '5':  # 5 ffmpeg推流
+        # 跳到start_push开始ffmpeg推流
+        start_push(url, mp4dir) # 开始ffmpeg推流
+    elif choose == '6':  # 6 PyRTMP推流
+        # 跳到start_push_pyrtmp开始PyRTMP推流
+        start_push_pyrtmp(url, mp4dir) # 开始PyRTMP推流
+    elif choose == '7':  # 7 screen窗口推流
+        # 跳到start_push_screen开始screen窗口推流
+        screen_push(url, mp4dir) # 开始screen窗口推流 
+    elif choose == '0':  # 0 退出   
+        exit()
+    else:
+        print('输入错误')
+    start() # 重新开始循环推流
+
 # 后台运行Supervisor，检测replit.py是否运行，如果未运行则重启replit.py
 subprocess.Popen('nohup supervisord -c /etc/supervisord.conf > /dev/null 2>&1 &',
                 shell=True)    # 后台运行 Supervisor
