@@ -1,22 +1,23 @@
 #!/bin/bash
-# 检测系统类型，是否安装，已安装则跳过，未安装则安装
-if  command -v apt &> /dev/null 
-then
-    PKG_MANAGER="apt"   # apt是Debian和Ubuntu的包管理器
-elif command -v yum &> /dev/null
-then
-    PKG_MANAGER="yum"   # yum是CentOS和RedHat的包管理器
-elif command -v pacman &> /dev/null
-then
-    PKG_MANAGER="pacman"    # pacman是Arch Linux的包管理器
-else
-    echo "未知的系统类型"
-    exit 1
-fi
-#显示系统类型，更新系统
-echo "系统类型：$PKG_MANAGER"
-sudo $PKG_MANAGER update
 
+# 获取当前操作系统的名称
+OS=$(uname -s)
+# 检查操作系统是否为Ubuntu
+if [ "$OS" = "Linux" ] && [ -x "$(command -v apt-get)" ]; then
+  echo "当前系统为Ubuntu"
+  echo "apt-get已安装"
+else
+  echo "当前系统Ubuntu，apt-get未安装，开始安装"
+        sudo apt-get update             
+fi
+# 检查操作系统是否为CentOS
+if [ "$OS" = "Linux" ] && [ -x "$(command -v yum)" ]; then
+  echo "当前系统为CentOS"
+  echo "yum已安装"
+else
+  echo "当前系统是CentOS，yum未安装，开始安装"
+        sudo yum update
+fi
 # 检查Python3和pip3是否已安装，已安装则跳过，未安装则安装
 if command -v python3 &> /dev/null
 then
