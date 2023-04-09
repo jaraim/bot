@@ -25,9 +25,9 @@ else
 fi
 
   # 检查Python 3是否已安装
-  if [ -x "$(command -v python3)" ]; then
+if [ -x "$(command -v python3)" ]; then
     echo "Python 3已经安装"
-  else
+else
     echo "Python 3未安装。正在安装..."
     if [ -x "$(command -v apt-get)" ]; then
       sudo apt-get update
@@ -36,12 +36,12 @@ fi
       sudo yum update
       sudo yum install -y python3
     fi
-  fi
+fi
 
   # 检查pip3是否已安装
-  if [ -x "$(command -v pip3)" ]; then
+if [ -x "$(command -v pip3)" ]; then
     echo "pip3已经安装"
-  else
+else
     echo "pip3未安装。正在安装..."
     if [ -x "$(command -v apt-get)" ]; then
       sudo apt-get update
@@ -50,9 +50,8 @@ fi
       sudo yum update
       sudo yum install -y python3-pip
     fi
-  fi
-
-  echo "Python 3和pip3安装完成"
-else
-  echo "当前系统不是Linux"
 fi
+# 检查Python 3和pip3是否安装成功
+echo "Python 3和pip3安装完成"
+python3 --version
+pip3 --version
