@@ -10,7 +10,8 @@ if [ "$OS" = "Linux" ]; then
         echo "当前系统为Ubuntu"
         echo "apt-get未安装，开始安装..."
         sudo apt-get update
-        sudo apt-get install -y apt-get    
+        sudo apt-get install -y apt-get   
+    fi 
 else 
     if [ -x "$(command -v yum)" ]; then
         echo "当前系统为CentOS"
@@ -20,7 +21,9 @@ else
         echo "yum未安装，开始安装..."
         sudo yum update
         sudo yum install -y yum
+    fi  
 fi
+
   # 检查Python 3是否已安装
   if [ -x "$(command -v python3)" ]; then
     echo "Python 3已经安装"
