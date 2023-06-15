@@ -46,9 +46,11 @@ else
     if [ -x "$(command -v apt-get)" ]; then
       sudo apt-get update
       sudo apt-get install -y python3-pip
+      python -m pip install --upgrade pip
     else
       sudo yum update
       sudo yum install -y python3-pip
+      python -m pip install --upgrade pip
     fi
 fi
 # 检查Python 3和pip3是否安装成功
